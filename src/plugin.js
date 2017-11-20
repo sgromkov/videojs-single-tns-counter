@@ -9,21 +9,41 @@ const registerPlugin = videojs.registerPlugin || videojs.plugin;
 // const dom = videojs.dom || videojs;
 
 /**
- * Function to invoke when the player is ready.
- *
- * This is a great place for your plugin to initialize itself. When this
- * function is called, the player will have its DOM and child components
- * in place.
- *
- * @function onPlayerReady
+ * @function initPlugin
  * @param    {Player} player
  *           A Video.js player object.
  *
  * @param    {Object} [options={}]
  *           A plain object containing options for the plugin.
  */
-const onPlayerReady = (player, options) => {
-  player.addClass('vjs-single-tns-counter');
+const initPlugin = (player, options) => {
+  videojs.log('singleTnsCounter Plugin ENABLED!', options);
+
+  const tnsSiteCode = options.tnsSiteCode;
+  const events = options.events;
+
+  const placeTnsCounter = function(eventName) {
+    videojs.log('event name: ' + eventName);
+    videojs.log('tnsSiteCode: ' + tnsSiteCode);
+
+    const rand = Math.floor(Math.random() * 999999);
+    const src = (document.location.protocol == "https:" ? "https://" : "http://") +
+      'www.tns-counter.ru/V13a****' + tnsSiteCode + '/ru/CP1251/tmsec=' + eventName + '/' + rand;
+
+    let tmp = new Image();
+    tmp.onload = function() {
+      document.body.removeChild(tmp);
+    };
+    tmp.src = src;
+
+    document.body.appendChild(tmp);
+  };
+
+  for(let key in events) {
+    if(events.hasOwnProperty(key)) {
+      player.one(key, () => placeTnsCounter(events[key]));
+    }
+  }
 };
 
 /**
@@ -39,9 +59,7 @@ const onPlayerReady = (player, options) => {
  *           An object of options left to the plugin author to define.
  */
 const singleTnsCounter = function(options) {
-  this.ready(() => {
-    onPlayerReady(this, videojs.mergeOptions(defaults, options));
-  });
+  initPlugin(this, videojs.mergeOptions(defaults, options));
 };
 
 // Register the plugin with video.js.
