@@ -38,6 +38,14 @@
     "videojs",
     "videojs-plugin"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sgromkov/videojs-single-tns-counter"
+  },
+  "bugs": {
+    "url": "https://github.com/sgromkov/videojs-single-tns-counter/issues"
+  },
+  "homepage": "https://github.com/sgromkov/videojs-single-tns-counter",
   "author": "Sergey Gromkov <sgromkov@gmail.com>",
   "license": "MIT",
   "vjsstandard": {
