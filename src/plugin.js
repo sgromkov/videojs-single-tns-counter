@@ -9,6 +9,8 @@ const registerPlugin = videojs.registerPlugin || videojs.plugin;
 // const dom = videojs.dom || videojs;
 
 /**
+ * Init plugin method.
+ *
  * @function initPlugin
  * @param    {Player} player
  *           A Video.js player object.
@@ -22,15 +24,21 @@ const initPlugin = (player, options) => {
   const tnsSiteCode = options.tnsSiteCode;
   const events = options.events;
 
-  const placeTnsCounter = function(eventName) {
-    videojs.log('event name: ' + eventName);
-    videojs.log('tnsSiteCode: ' + tnsSiteCode);
-
+  /**
+   * Will send tnsSiteCode and eventName to www.tns-counter.ru
+   * Example: "http://www.tns-counter.ru/V13a****mysite/ru/CP1251/tmsec=player_play/217528"
+   *
+   * @function  placeTnsCounter
+   * @param     {string} eventText
+   *            Text to send on event firing
+   */
+  const placeTnsCounter = function(eventText) {
     const rand = Math.floor(Math.random() * 999999);
-    const src = (document.location.protocol == "https:" ? "https://" : "http://") +
-      'www.tns-counter.ru/V13a****' + tnsSiteCode + '/ru/CP1251/tmsec=' + eventName + '/' + rand;
+    const src = (document.location.protocol === 'https:' ? 'https://' : 'http://') +
+      'www.tns-counter.ru/V13a****' + tnsSiteCode +
+      '/ru/CP1251/tmsec=' + eventText + '/' + rand;
+    const tmp = new Image();
 
-    let tmp = new Image();
     tmp.onload = function() {
       document.body.removeChild(tmp);
     };
@@ -39,8 +47,8 @@ const initPlugin = (player, options) => {
     document.body.appendChild(tmp);
   };
 
-  for(let key in events) {
-    if(events.hasOwnProperty(key)) {
+  for (const key in events) {
+    if (events.hasOwnProperty(key)) {
       player.one(key, () => placeTnsCounter(events[key]));
     }
   }
