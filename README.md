@@ -4,8 +4,18 @@ Video.js plugin for one-time Mediascope TNS counter
 
 ## Table of Contents
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Installation
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [`<script>` Tag](#script-tag)
+  - [Browserify/CommonJS](#browserifycommonjs)
+  - [RequireJS/AMD](#requirejsamd)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 ## Installation
 
 ```sh
@@ -26,7 +36,16 @@ This is the simplest case. Get the script in whatever way you prefer and include
 <script>
   var player = videojs('my-video');
 
-  player.singleTnsCounter();
+  player.singleTnsCounter({
+    tnsSiteCode: "your own code",
+    events: {
+      // any event you need, include your custom events
+      // for example:
+      loadstart: "text to send on loadstart event",
+      play: "text to send on play event",
+      ended: "text to send on ended event"
+    }
+  });
 </script>
 ```
 
@@ -44,7 +63,16 @@ require('videojs-single-tns-counter');
 
 var player = videojs('my-video');
 
-player.singleTnsCounter();
+player.singleTnsCounter({
+  tnsSiteCode: "your own code",
+  events: {
+    // any event you need, include your custom events
+    // for example:
+    loadstart: "text to send on loadstart event",
+    play: "text to send on play event",
+    ended: "text to send on ended event"
+  }
+});
 ```
 
 ### RequireJS/AMD
@@ -55,7 +83,16 @@ When using with RequireJS (or another AMD library), get the script in whatever w
 require(['video.js', 'videojs-single-tns-counter'], function(videojs) {
   var player = videojs('my-video');
 
-  player.singleTnsCounter();
+  player.singleTnsCounter({
+    tnsSiteCode: "your own code",
+    events: {
+      // any event you need, include your custom events
+      // for example:
+      loadstart: "text to send on loadstart event",
+      play: "text to send on play event",
+      ended: "text to send on ended event"
+    }
+  });
 });
 ```
 
