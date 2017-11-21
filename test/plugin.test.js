@@ -38,7 +38,7 @@ QUnit.module('videojs-single-tns-counter', {
 });
 
 QUnit.test('registers itself with video.js', function(assert) {
-  assert.expect(2);
+  assert.expect(1);
 
   assert.strictEqual(
     typeof Player.prototype.singleTnsCounter,
@@ -47,12 +47,4 @@ QUnit.test('registers itself with video.js', function(assert) {
   );
 
   this.player.singleTnsCounter();
-
-  // Tick the clock forward enough to trigger the player to be "ready".
-  this.clock.tick(2);
-
-  assert.ok(
-    this.player.hasClass('vjs-single-tns-counter'),
-    'the plugin adds a class to the player'
-  );
 });
